@@ -7,12 +7,15 @@ import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import org.eclipse.swt.graphics.Color;
+
 import javax.swing.JButton;
 import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 
-public class CalculatorWithSwing {
+public class CalculatorWithSwing implements ActionListener{
 
 	private JFrame frame;
 	private JTextField pantallaCalculadora;
@@ -28,12 +31,12 @@ public class CalculatorWithSwing {
 					 * */
 					CalculatorWithSwing window = new CalculatorWithSwing();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception exceptionalEvent) {
 					/*atrapa la excepción, un código que hace que el código 
 					 * deje de funcionar, o sea, un error, el catch utiliza
 					 * las líneas de código que tiene para esto.
 					 * */
-					e.printStackTrace();
+					exceptionalEvent.printStackTrace();
 				}
 			}
 		});
@@ -62,15 +65,29 @@ public class CalculatorWithSwing {
 		frame.getContentPane().add(pantallaCalculadora);
 		pantallaCalculadora.setColumns(1);
 		
-		JButton botonPuntoDecimal = new JButton(".");
-		botonPuntoDecimal.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		botonPuntoDecimal.setBounds(159, 315, 70, 52);
-		frame.getContentPane().add(botonPuntoDecimal);
-		
 		JButton botonIgual = new JButton("=");
 		botonIgual.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		botonIgual.setBounds(232, 256, 70, 111);
 		frame.getContentPane().add(botonIgual);
+		final java.awt.Color colorBackgroundBotonIgual = botonIgual.getBackground();
+		botonIgual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//Aquí va el código que hace funcionar la calculadora
+			}
+		});
+		botonIgual.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent eventMousePointerOver) {
+				eventMousePointerOver.getComponent().setBackground(java.awt.Color.ORANGE);
+			}
+			public void focusLost(FocusEvent eventMousePointerOut) {
+				eventMousePointerOut.getComponent().setBackground(colorBackgroundBotonIgual);
+			}
+		});
+		
+		JButton botonPuntoDecimal = new JButton(".");
+		botonPuntoDecimal.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		botonPuntoDecimal.setBounds(159, 315, 70, 52);
+		frame.getContentPane().add(botonPuntoDecimal);
 		
 		JButton botonSuma = new JButton("+");
 		botonSuma.setFont(new Font("Tahoma", Font.PLAIN, 24));
