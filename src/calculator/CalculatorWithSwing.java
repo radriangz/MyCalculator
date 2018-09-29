@@ -60,7 +60,9 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 	private void initializeCalculator() {
 		frame = new JFrame(); //Se crea el objeto tipo JFrame de nombre frame
 		frame.setBounds(100, 100, 328, 426); //Se establecen las medidas del frame.
+		frame.setLocationRelativeTo(null);//la ventana del jframe se abrirá en el centro de la pantalla
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//se establece como cerrar la app
+		frame.setTitle("Calculador con Swing");
 		frame.getContentPane().setLayout(null);//Se crean los componentes y se colocan dentrodel mismo
 		frame.setResizable(false);//No se le va a poder cambiar de tamaño a la pantalla
 		
@@ -94,6 +96,19 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 		botonPuntoDecimal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonPuntoDecimal.setBounds(159, 315, 70, 52);
 		frame.getContentPane().add(botonPuntoDecimal);
+		botonPuntoDecimal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		botonPuntoDecimal.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(MouseEvent eventMousePointerOver1) {
+				eventMousePointerOver1.getComponent().setBackground(mouseOverColor);
+			}
+			public void mouseExited(MouseEvent eventMousePointerOut1) {
+				eventMousePointerOut1.getComponent().setBackground(colorBackgroundBotonIgual);
+			}
+		});
 		
 		JButton botonSuma = new JButton("+");
 		botonSuma.setFont(new Font("Tahoma", Font.PLAIN, 24));
