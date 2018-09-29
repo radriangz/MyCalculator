@@ -15,11 +15,16 @@ import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 
-public class CalculatorWithSwing implements ActionListener{
+public class CalculatorWithSwing implements ActionListener, MouseListener {
 
 	private JFrame frame;
 	private JTextField pantallaCalculadora;
-
+	java.awt.Color mouseOverColor = new java.awt.Color(174, 211, 219);
+	java.awt.Color mouseClickColor = new java.awt.Color(205, 255, 253);
+	
+	//añadir las variales JButton de todos los botones de la calc
+	
+	
 	/**
 	 * Lanza la app.
 	 */
@@ -46,17 +51,18 @@ public class CalculatorWithSwing implements ActionListener{
 	 * Crea la app.
 	 */
 	public CalculatorWithSwing() {
-		initialize();
+		initializeCalculator();
 	}
 
 	/**
 	 * Inicializa el contenido del frame.
 	 */
-	private void initialize() {
+	private void initializeCalculator() {
 		frame = new JFrame(); //Se crea el objeto tipo JFrame de nombre frame
 		frame.setBounds(100, 100, 328, 426); //Se establecen las medidas del frame.
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//se establece como cerrar la app
 		frame.getContentPane().setLayout(null);//Se crean los componentes y se colocan dentrodel mismo
+		frame.setResizable(false);//No se le va a poder cambiar de tamaño a la pantalla
 		
 		pantallaCalculadora = new JTextField();//cuadro de texto, con todos sus datos
 		pantallaCalculadora.setBounds(11, 11, 291, 43);
@@ -72,16 +78,21 @@ public class CalculatorWithSwing implements ActionListener{
 		final java.awt.Color colorBackgroundBotonIgual = botonIgual.getBackground();
 		botonIgual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//Aquí va el código que hace funcionar la calculadora
+				//va aqyí el código que hace funcionar la calculadora?
 			}
 		});
-		botonIgual.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent eventMousePointerOver) {
-				eventMousePointerOver.getComponent().setBackground(java.awt.Color.ORANGE);
+		botonIgual.addMouseListener(new MouseListener() {
+			public void mouseEntered(MouseEvent eventMousePointerOver0) {
+				eventMousePointerOver0.getComponent().setBackground(mouseOverColor);
 			}
-			public void focusLost(FocusEvent eventMousePointerOut) {
+			public void mouseClicked(MouseEvent eventMouseClicked0) {
+				eventMouseClicked0.getComponent().setBackground(mouseClickColor);
+			}
+			public void mouseExited(MouseEvent eventMousePointerOut) {
 				eventMousePointerOut.getComponent().setBackground(colorBackgroundBotonIgual);
 			}
+			public void mousePressed(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
 		});
 		
 		JButton botonPuntoDecimal = new JButton(".");
