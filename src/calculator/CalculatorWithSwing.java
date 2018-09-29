@@ -85,14 +85,9 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 			public void mouseEntered(MouseEvent eventMousePointerOver0) {
 				eventMousePointerOver0.getComponent().setBackground(mouseOverColor);
 			}
-			public void mouseClicked(MouseEvent eventMouseClicked0) {
-				eventMouseClicked0.getComponent().setBackground(mouseClickColor);
-			}
 			public void mouseExited(MouseEvent eventMousePointerOut) {
 				eventMousePointerOut.getComponent().setBackground(colorBackgroundBotonIgual);
 			}
-			public void mousePressed(MouseEvent arg0) {}
-			public void mouseReleased(MouseEvent arg0) {}
 		});
 		
 		JButton botonPuntoDecimal = new JButton(".");
