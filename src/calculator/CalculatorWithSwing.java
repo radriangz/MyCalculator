@@ -81,7 +81,7 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 				//va aqyí el código que hace funcionar la calculadora?
 			}
 		});
-		botonIgual.addMouseListener(new MouseListener() {
+		botonIgual.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(MouseEvent eventMousePointerOver0) {
 				eventMousePointerOver0.getComponent().setBackground(mouseOverColor);
 			}
