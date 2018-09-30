@@ -15,15 +15,21 @@ import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 
-public class CalculatorWithSwing implements ActionListener, MouseListener {
+public class CalculatorWithSwing implements ActionListener { //, MouseListener {
 
 	private JFrame frame;
 	private JTextField pantallaCalculadora;
-	java.awt.Color mouseOverColor = new java.awt.Color(174, 211, 219);
-	java.awt.Color mouseClickColor = new java.awt.Color(205, 255, 253);
-	
-	//añadir las variales JButton de todos los botones de la calc
-	
+	//java.awt.Color mouseOverColor = new java.awt.Color(174, 211, 219);
+	//java.awt.Color mouseClickColor = new java.awt.Color(205, 255, 253);
+	long valorA;
+	long valorB;
+	long resultado;
+	boolean operandoA = true;
+	boolean operandoB;
+	boolean operadorSuma;
+	boolean operadorResta;
+	boolean operadorMulti;
+	boolean operadorDiv;
 	
 	/**
 	 * Lanza la app.
@@ -72,18 +78,22 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 		pantallaCalculadora.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		frame.getContentPane().add(pantallaCalculadora);
 		pantallaCalculadora.setColumns(1);
+		pantallaCalculadora.setEditable(false);
 		
 		JButton botonIgual = new JButton("=");
 		botonIgual.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		botonIgual.setBounds(232, 256, 70, 111);
+		botonIgual.setActionCommand("=");
 		frame.getContentPane().add(botonIgual);
-		final java.awt.Color colorBackgroundBotonIgual = botonIgual.getBackground();
+		//final java.awt.Color colorBackgroundBotonIgual = botonIgual.getBackground();
 		botonIgual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//va aqyí el código que hace funcionar la calculadora?
+				valorB = Long.parseLong(pantallaCalculadora.getText());
+				operandoB = false;
+				operacion(valorA, valorB);
 			}
 		});
-		botonIgual.addMouseListener(new java.awt.event.MouseAdapter() {
+		/*botonIgual.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(MouseEvent eventMousePointerOver0) {
 				eventMousePointerOver0.getComponent().setBackground(mouseOverColor);
 			}
@@ -91,22 +101,18 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 				eventMousePointerOut.getComponent().setBackground(colorBackgroundBotonIgual);
 			}
 		});
+		 * Puse este código acá, pero me confunde, así que luego
+		 * arreglo de la estética, primero lo hago funcionar
+		 * */
+		
 		
 		JButton botonPuntoDecimal = new JButton(".");
 		botonPuntoDecimal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonPuntoDecimal.setBounds(159, 315, 70, 52);
 		frame.getContentPane().add(botonPuntoDecimal);
 		botonPuntoDecimal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
-		botonPuntoDecimal.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseEntered(MouseEvent eventMousePointerOver1) {
-				eventMousePointerOver1.getComponent().setBackground(mouseOverColor);
-			}
-			public void mouseExited(MouseEvent eventMousePointerOut1) {
-				eventMousePointerOut1.getComponent().setBackground(colorBackgroundBotonIgual);
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("."));
 			}
 		});
 		
@@ -114,80 +120,213 @@ public class CalculatorWithSwing implements ActionListener, MouseListener {
 		botonSuma.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		botonSuma.setBounds(232, 193, 70, 52);
 		frame.getContentPane().add(botonSuma);
+		botonSuma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				valorA = Long.parseLong(pantallaCalculadora.getText());
+				operadorSuma = true;
+				operandoA = false;
+				operandoB = true;	
+				pantallaCalculadora.setText("");
+			}
+		});
 		
 		JButton botonResta = new JButton("-");
 		botonResta.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		botonResta.setBounds(232, 133, 70, 52);
 		frame.getContentPane().add(botonResta);
+		botonResta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				valorA = Long.parseLong(pantallaCalculadora.getText());
+				operadorResta = true;
+				operandoA = false;
+				operandoB = true;	
+				pantallaCalculadora.setText("");
+			}
+		});
+		
 		
 		JButton botonDelete = new JButton("Del");
 		botonDelete.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonDelete.setBounds(232, 68, 70, 52);
+		botonDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				String screenText = pantallaCalculadora.getText();
+				pantallaCalculadora.setText("");
+			
+            for(int i=0;i<screenText.length()-1;i++)
+	            pantallaCalculadora.setText(pantallaCalculadora.getText() + screenText.charAt(i));
+				//Preguntar a karim qué hace esto.
+			}
+		});
 		frame.getContentPane().add(botonDelete);
 		
 		JButton botonDivision = new JButton("/");
 		botonDivision.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonDivision.setBounds(158, 68, 70, 52);
 		frame.getContentPane().add(botonDivision);
+		botonDivision.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				valorA = Long.parseLong(pantallaCalculadora.getText());
+				operadorDiv = true;
+				operandoA = false;
+				operandoB = true;	
+				pantallaCalculadora.setText("");
+			}
+		});
 		
 		JButton botonMultiplicacion = new JButton("*");
 		botonMultiplicacion.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonMultiplicacion.setBounds(84, 68, 70, 52);
 		frame.getContentPane().add(botonMultiplicacion);
+		botonMultiplicacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				valorA = Long.parseLong(pantallaCalculadora.getText());
+				operadorDiv = true;
+				operandoA = false;
+				operandoB = true;	
+				pantallaCalculadora.setText("");
+			}
+		});
 		
 		JButton botonClear = new JButton("C");
 		botonClear.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonClear.setBounds(10, 68, 70, 52);
 		frame.getContentPane().add(botonClear);
+		botonClear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText("");
+				operandoA = true;
+				operandoB = false;
+				operadorSuma = false;
+				operadorResta = false;
+				operadorMulti = false;
+				operadorDiv = false;
+			}
+		});
 		
 		JButton botonNumCero = new JButton("0");
 		botonNumCero.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumCero.setBounds(11, 315, 145, 52);
 		frame.getContentPane().add(botonNumCero);
+		botonNumCero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("0"));
+			}
+		});
 		
 		JButton botonNumUno = new JButton("1");
 		botonNumUno.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		botonNumUno.setBounds(10, 256, 70, 52);
 		frame.getContentPane().add(botonNumUno);
+		botonNumUno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("1"));
+			}
+		});
 		
 		JButton botonNumDos = new JButton("2");
 		botonNumDos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumDos.setBounds(84, 256, 70, 52);
 		frame.getContentPane().add(botonNumDos);
+		botonNumDos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("2"));
+			}
+		});
 		
 		JButton botonNumTres = new JButton("3");
 		botonNumTres.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumTres.setBounds(158, 256, 70, 52);
 		frame.getContentPane().add(botonNumTres);
-		
+		botonNumTres.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("3"));
+			}
+		});
+
 		JButton botonNumCuatro = new JButton("4");
 		botonNumCuatro.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumCuatro.setBounds(10, 193, 70, 52);
 		frame.getContentPane().add(botonNumCuatro);
+		botonNumCuatro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("4"));
+			}
+		});
 		
 		JButton botonNumCinco = new JButton("5");
 		botonNumCinco.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumCinco.setBounds(84, 193, 70, 52);
 		frame.getContentPane().add(botonNumCinco);
+		botonNumCinco.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("5"));
+			}
+		});
 		
 		JButton botonNumSeis = new JButton("6");
 		botonNumSeis.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumSeis.setBounds(158, 193, 70, 52);
 		frame.getContentPane().add(botonNumSeis);
+		botonNumSeis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("6"));
+			}
+		});
 		
 		JButton botonNumSiete = new JButton("7");
 		botonNumSiete.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumSiete.setBounds(10, 133, 70, 52);
 		frame.getContentPane().add(botonNumSiete);
+		botonNumSiete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("7"));
+			}
+		});
 		
 		JButton botonNumOcho = new JButton("8");
 		botonNumOcho.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumOcho.setBounds(84, 133, 70, 52);
 		frame.getContentPane().add(botonNumOcho);
+		botonNumOcho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("8"));
+			}
+		});
 		
 		JButton botonNumNueve = new JButton("9");
 		botonNumNueve.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonNumNueve.setBounds(158, 133, 70, 52);
 		frame.getContentPane().add(botonNumNueve);
+		botonNumNueve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				pantallaCalculadora.setText(pantallaCalculadora.getText().concat("9"));
+			}
+		});
 	}
+	
+	public void operacion(long valorA, long valorB) {
+		
+		if(operadorSuma) {
+			resultado = (valorA) + (valorB);
+			pantallaCalculadora.setText(Long.valueOf(resultado).toString());
+		}
+		else if(operadorResta) {
+			resultado = (valorA) - (valorB);
+			pantallaCalculadora.setText(Long.valueOf(resultado).toString());
+		}
+		else if(operadorDiv) {
+			resultado = (valorA) / (valorB);
+			pantallaCalculadora.setText(Long.valueOf(resultado).toString());
+		}
+		else if(operadorMulti) {
+			resultado = (valorA) * (valorB);
+			pantallaCalculadora.setText(Long.valueOf(resultado).toString());
+		}
+		operadorSuma = false;
+		operandoA = true;
+	}
+
 }
+
+	 
