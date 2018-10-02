@@ -1,4 +1,4 @@
-package calculator;
+package com.radrian.mycalculator.test;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
