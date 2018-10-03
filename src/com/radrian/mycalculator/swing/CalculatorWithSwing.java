@@ -247,7 +247,7 @@ public class CalculatorWithSwing {
 		frame.getContentPane().add(botonNumNueve);
 		
 		CalculatorListener listener = new CalculatorListener(this);
-		botonNumNueve.addActionListener(this);
+		botonNumNueve.addActionListener(listener);
 		
 		
 		botonNumNueve.addActionListener(new ActionListener() {
